@@ -2,6 +2,18 @@ var OrdersControllerModule = (function () {
 
   var showOrdersByTable = function () {
     //Todo implement
+
+    var callback = {
+
+        onSuccess: function(ordersList){
+            //Todo implement
+
+            },
+        onFailed: function(exception){
+        //Todo implement
+        }
+    }
+    //RestaurantRestController.getOrders(callback)
   };
 
   var updateOrder = function () {
