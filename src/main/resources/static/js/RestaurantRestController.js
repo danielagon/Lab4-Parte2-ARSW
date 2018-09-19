@@ -1,7 +1,13 @@
 var RestControllerModule = (function () {
 
   var getOrders = function (callback) {
-    // todo implement
+    axios.get('/orders')
+        .then(function (orders){
+            callback.onSuccess(orders.data);
+        })
+        .catch(function (error) {
+            callback.onFailed(error);
+        });
   };
 
   var updateOrder = function (order, callback) {
@@ -18,9 +24,9 @@ var RestControllerModule = (function () {
 
   return {
     getOrders: getOrders,
-    updateOrder: updateOrder,
-    deleteOrder: deleteOrder,
-    createOrder: createOrder
+    //updateOrder: updateOrder,
+    //deleteOrder: deleteOrder,
+    //createOrder: createOrder
   };
 
 })();
