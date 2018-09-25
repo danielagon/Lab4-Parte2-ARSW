@@ -17,22 +17,54 @@
 
 </head>
 
-<body class="text-center">
+<body class="text-center" onload="OrdersControllerModule.loadSelectedTables()">
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
-            <h3>Update orders</h3>
-            <div class="nav-item dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select table
-                </button>
-                <div class="dropdown-menu list-group-item-dark" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Table 1</a>
-                    <a class="dropdown-item" href="#">Table 3</a>
-                </div>
+            <div class="inner">
+                <h3 class="masthead-brand">Update orders</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="/index.html">Orders</a>
+                </nav>
             </div>
         </header>
         
-        <main role="main" class="inner cover"></main>
+        <select class="custom-select list-group-item-dark" onchange="OrdersControllerModule.loadSelectedTables()">
+            <!--option selected>Select table</option>
+            <option>Table 1</option-->
+        </select> 
+        
+        <main role="main" class="inner cover">
+            
+            <!--div class="btn-group">
+                <button id="selectTable" class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select table
+                </button>
+                <div class="dropdown-menu list-group-item-dark" aria-labelledby="selectTable">
+                    <a class="dropdown-item" href="/">Table 1</a>
+                    <a class="dropdown-item" href="/">Table 3</a>
+                </div>
+            </div-->
+            
+            <br><br><br><br><br>
+            
+            <h5 class="masthead-brand" style="align-content: center">Add new item</h5>
+            
+            <br><br>
+            
+            <form>
+                <div class="form-group">
+                    <input id="itemName" class="form-control list-group-item-secondary" type="text" placeholder="Item Name">
+                </div>
+                <div class="form-group">
+                    <input id="quantityItem" class="form-control list-group-item-secondary" type="number" placeholder="Quantity" >
+                </div>
+                <button type="button" class="btn btn-dark">Add</button>
+            </form>
+            
+            <br><br>
+            
+            <table id="tableSelect" class="table table-sm table-dark"></table>
+        </main>
         
         <footer class="mastfoot mt-auto">
             <div class="inner">
