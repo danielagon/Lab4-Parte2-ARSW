@@ -98,16 +98,11 @@ public class OrdersAPIController {
     
     @RequestMapping(value = "/{idmesa}",method = RequestMethod.PUT)
     public ResponseEntity<?> manejadorPutRecursoOrders(@RequestBody String p, @PathVariable int idmesa){
-        try{
-            ObjectMapper mapper = new ObjectMapper();
-            Map<String,Integer> products = mapper.readValue(p, ConcurrentHashMap.class);
+        if (orders.getTablesWithOrders().contains(idmesa)){
             Order order = orders.getTableOrder(idmesa);
-            for (String i:products.keySet()){
-                order.addDish(i, products.get(i));
-            }
+            order.addDish(p.split("\"")[1],Integer.parseInt(p.split("\"")[3]));
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        }catch (IOException ex){
-            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
             return new ResponseEntity<>("Error ingresando el nuevo producto",HttpStatus.NO_CONTENT);
         }
     }

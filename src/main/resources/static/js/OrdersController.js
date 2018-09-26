@@ -58,8 +58,8 @@ var OrdersControllerModule = (function () {
         RestControllerModule.getOrders(callback);
     };
 
-    var updateOrder = function () {
-      alert("ENTRA");
+    var updateOrder = function (orderId, item) {
+        
     };
 
     var deleteOrderItem = function (itemName) {
@@ -77,7 +77,23 @@ var OrdersControllerModule = (function () {
     };
 
     var addItemToOrder = function (orderId, item) {
-      // todo implement
+        var itemName = item[0];
+        var itemQuantity = item[1];
+        if (Object.keys(selectedOrder[orderId].orderAmountsMap).includes(itemName)){
+            selectedOrder[orderId].orderAmountsMap[itemName] += parseInt(itemQuantity);
+        }else{
+            selectedOrder[orderId].orderAmountsMap[itemName] = parseInt(itemQuantity);
+        }
+        var callback = {
+            onSuccess: function (){
+                selectTable();
+            },
+            onFailed: function(exception){
+                console.log(exception);
+                alert("There is a problem with our servers. We apologize for the inconvince, please try again later");
+            }
+        };
+        RestControllerModule.addItem(orderId, item, callback);
     };
     
     var loadSelectedTables = function (){

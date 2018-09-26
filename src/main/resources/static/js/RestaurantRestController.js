@@ -11,7 +11,7 @@ var RestControllerModule = (function () {
     };
 
     var updateOrder = function (order, callback) {
-        axios.put('/orders',order)
+        axios.post('/orders',order)
             .then(function(){
                 callback.onSuccess();
             })
@@ -43,13 +43,24 @@ var RestControllerModule = (function () {
                 callback.onFailed(error);
             });
     };
+    
+    var addItem = function (orderId, itemName, callback){
+        axios.put('/orders/'+orderId, itemName)
+            .then(function (orders){
+                callback.onSuccess(orders.data);
+            })
+            .catch(function (error){
+                callback.onFailed(error);
+            })
+    }
 
     return {
         getOrders: getOrders,
         updateOrder: updateOrder,
         deleteOrder: deleteOrder,
         createOrder: createOrder,
-        showOrder: showOrder
+        showOrder: showOrder,
+        addItem: addItem
     };
 
 })();
