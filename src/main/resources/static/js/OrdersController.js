@@ -1,6 +1,6 @@
 var OrdersControllerModule = (function () {
     
-    var orders;
+    var selectedOrder;
 
     var showOrdersByTable = function () {
     
@@ -59,20 +59,21 @@ var OrdersControllerModule = (function () {
     };
 
     var updateOrder = function () {
-      // todo implement
+      alert("ENTRA");
     };
 
     var deleteOrderItem = function (itemName) {
+        delete selectedOrder[sel].orderAmountsMap[itemName];
         var callback = {
-            onSuccess: function (orderId){
-                document.getElementById("Table"+orderId).remove();
+            onSuccess: function (){
+                selectTable();
             },
             onFailed: function(exception){
                 console.log(exception);
                 alert("There is a problem with our servers. We apologize for the inconvince, please try again later");
             }
         };
-        RestControllerModule.deleteOrder(itemName,callback);
+        RestControllerModule.deleteOrder(sel,itemName, callback);
     };
 
     var addItemToOrder = function (orderId, item) {
@@ -82,13 +83,10 @@ var OrdersControllerModule = (function () {
     var loadSelectedTables = function (){
         var callback = {
             onSuccess: function(orders){
-                //$('#orders').append("<button id='selectTable' class='btn btn-dark dropdown-toggle' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Select table</button>");
-                //$('#orders').append("<div class='dropdown-menu list-group-item-dark' aria-labelledby='selectTable'>");
-                $('#orders').append("<option selected>Select table</option>");
+                $('#orders').empty();
                 for (i in orders){
                     $('#orders').append("<option value='"+i+"'>Table "+i+"</option>");
                 }
-                //$('#orders').append("</div>");
             },
             onFailed: function(exception){
                 console.log(exception);
@@ -101,16 +99,26 @@ var OrdersControllerModule = (function () {
     var selectTable = function (){
         
         var index = document.getElementById("orders");
-        var sel = index.options[index.selectedIndex].value;
+        sel = index.options[index.selectedIndex].value;
+       
         var callback = {
             onSuccess: function (order){
-                orders = order;
+                selectedOrder = order;
+                $('#tableSelect').empty();
+                $('#tableSelect').append("<thead> <tr> <th class='col'>Item</th> <th class='col'>Quantity</th> <th class='col'></th> <th class='col'></th> </tr> </thead>");
+                var id=1;
+                for(i in order[sel].orderAmountsMap){
+                    $('#tableSelect').append("<tbody> <tr> <td> <input id='item"+id+"' type='text' value='"+i+"'> </td> <td> <input id='quantity"+id+"' type='text' value='"+order[sel].orderAmountsMap[i]+"'> </td> <td> <td> <button id='delete"+id+"' type='button' class='btn btn-dark'>Delete</button> </td> <td> <button id='update"+id+"' type='button' class='btn btn-dark' onclick='OrdersControllerModule.updateOrder()'>Update</button> </td> </td> </tr> </tbody>");
+                    document.getElementById('delete'+id).setAttribute("onclick","OrdersControllerModule.deleteOrderItem('"+$('#item'+id).val()+"')");
+                    id+=1;
+                }
             },
             onFailed: function(exception){
-                console.log(exception);
-                alert("There is a problem with our servers. We apologize for the inconvince, please try again later");
+                alert(exception);
+                console.log("There is a problem with our servers. We apologize for the inconvince, please try again later");
             }
         };
+        RestControllerModule.showOrder(sel, callback);
     };
 
     return {
@@ -120,6 +128,6 @@ var OrdersControllerModule = (function () {
         addItemToOrder: addItemToOrder,
         selectTable: selectTable,
         loadSelectedTables: loadSelectedTables
-  };
+    };
 
 })();

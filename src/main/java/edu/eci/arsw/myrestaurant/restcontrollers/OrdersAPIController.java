@@ -64,7 +64,8 @@ public class OrdersAPIController {
     @RequestMapping(value = "/{idmesa}")
     public ResponseEntity<?> manejadorGetOrder(@PathVariable int idmesa){
         if (orders.getTablesWithOrders().contains(idmesa)){
-            Order order = orders.getTableOrder(idmesa);
+            Map<Integer,Order> order = new ConcurrentHashMap<>();
+            order.put(idmesa, orders.getTableOrder(idmesa));
             return new ResponseEntity<>(order,HttpStatus.ACCEPTED);
         }else{
             return new ResponseEntity<>("Error 404: El numero de la mesa no existe o no tiene una orden asociada",HttpStatus.NOT_FOUND);
@@ -119,6 +120,17 @@ public class OrdersAPIController {
         } catch (OrderServicesException ex) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("El numero de la mesa no existe o no tiene una orden asociada",HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.DELETE, path = "{idmesa}/{itemName}")
+    public ResponseEntity<?> deleteItemOrder(@PathVariable String idmesa, @PathVariable String itemName){
+        try{
+            orders.releaseItem(Integer.parseInt(idmesa), itemName);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }catch (OrderServicesException ex){
+            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("El item no existe en la orden", HttpStatus.NOT_FOUND);
         }
     }
 }

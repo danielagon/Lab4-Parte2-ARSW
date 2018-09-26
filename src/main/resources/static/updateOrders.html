@@ -28,37 +28,24 @@
             </div>
         </header>
         
-        <select class="custom-select list-group-item-dark" onchange="OrdersControllerModule.loadSelectedTables()">
-            <!--option selected>Select table</option>
-            <option>Table 1</option-->
-        </select> 
-        
         <main role="main" class="inner cover">
             
-            <!--div class="btn-group">
-                <button id="selectTable" class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select table
-                </button>
-                <div class="dropdown-menu list-group-item-dark" aria-labelledby="selectTable">
-                    <a class="dropdown-item" href="/">Table 1</a>
-                    <a class="dropdown-item" href="/">Table 3</a>
-                </div>
-            </div-->
+            <h5 class="masthead-brand">Select table</h5>
+            <br><br>
+            <select id="orders" class="custom-select list-group-item-dark" onchange="OrdersControllerModule.selectTable()"></select> 
             
-            <br><br><br><br><br>
+            <br><br><br>
             
-            <h5 class="masthead-brand" style="align-content: center">Add new item</h5>
+            <h5 class="masthead-brand">Add new item</h5>
             
             <br><br>
             
             <form>
-                <div class="form-group">
-                    <input id="itemName" class="form-control list-group-item-secondary" type="text" placeholder="Item Name">
-                </div>
-                <div class="form-group">
-                    <input id="quantityItem" class="form-control list-group-item-secondary" type="number" placeholder="Quantity" >
-                </div>
-                <button type="button" class="btn btn-dark">Add</button>
+                <input id="itemName" class="form-control list-group-item-secondary" type="text" placeholder="Item Name">
+                <br>
+                <input id="quantityItem" class="form-control list-group-item-secondary" type="number" placeholder="Quantity" >
+                <br>
+                <button id="addButton" type="button" class="btn btn-dark">Add</button>
             </form>
             
             <br><br>

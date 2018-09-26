@@ -3,7 +3,7 @@ var RestControllerModule = (function () {
     var getOrders = function (callback) {
         axios.get('/orders')
             .then(function (orders){
-                return callback.onSuccess(orders.data);
+                callback.onSuccess(orders.data);
             })
             .catch(function (error) {
                 callback.onFailed(error);
@@ -17,34 +17,39 @@ var RestControllerModule = (function () {
             })
             .catch(function(error){
                 callback.onFailed(error);
-            })
+            });
     };
 
-    var deleteOrder = function (orderId, callback) {
-        axios.delete('/orders/'+orderId)
-            .then(function(response){
-                callback.onSuccess(response);
-            })
-            .catch(function (error){
-                callback.onFailed(error);
-            })
-    };
-
-    var createOrder = function (order, callback) {
-        axios.post('/orders',order)
+    var deleteOrder = function (orderId, itemName, callback) {
+        axios.delete('/orders/'+orderId+'/'+itemName)
             .then(function(){
                 callback.onSuccess();
             })
+            .catch(function (error){
+                callback.onFailed(error);
+            });
+    };
+
+    var createOrder = function (order, callback) {
+        // todo implement
+    };
+    
+    var showOrder = function (orderId, callback){
+        axios.get('/orders/'+orderId)
+            .then(function (orders){
+                callback.onSuccess(orders.data);
+            })
             .catch(function(error){
                 callback.onFailed(error);
-            })
+            });
     };
 
     return {
         getOrders: getOrders,
         updateOrder: updateOrder,
         deleteOrder: deleteOrder,
-        createOrder: createOrder
+        createOrder: createOrder,
+        showOrder: showOrder
     };
 
 })();

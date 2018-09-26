@@ -43,6 +43,12 @@ public class Order {
             orderAmountsMap.put(p, previousAmount+amount);
         }
     }
+    
+    public void deleteDish(String p){
+        if (orderAmountsMap.containsKey(p)){
+            orderAmountsMap.remove(p,getDishOrderedAmount(p));
+        }
+    }
 
     @JsonIgnore
     public Set<String> getOrderedDishes() {

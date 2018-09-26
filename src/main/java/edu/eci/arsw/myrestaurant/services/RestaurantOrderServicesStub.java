@@ -72,6 +72,15 @@ public class RestaurantOrderServicesStub implements RestaurantOrderServices {
         }
 
     }
+    
+    @Override
+    public void releaseItem(int tableNumber, String item) throws OrderServicesException{
+        if (!tableOrders.containsKey(tableNumber)){
+            throw new OrderServicesException("Mesa inexistente o ya liberada:" + tableNumber);
+        }else {
+            tableOrders.get(tableNumber).deleteDish(item);
+        }
+    }
 
     @Override
     public int calculateTableBill(int tableNumber) throws OrderServicesException {
