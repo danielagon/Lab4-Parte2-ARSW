@@ -59,7 +59,8 @@ var OrdersControllerModule = (function () {
     };
 
     var updateOrder = function (orderId, item) {
-        
+        alert("ENTRAAA "+orderId+" "+item);
+        addItemToOrder(orderId, item);
     };
 
     var deleteOrderItem = function (itemName) {
@@ -124,7 +125,8 @@ var OrdersControllerModule = (function () {
                 $('#tableSelect').append("<thead> <tr> <th class='col'>Item</th> <th class='col'>Quantity</th> <th class='col'></th> <th class='col'></th> </tr> </thead>");
                 var id=1;
                 for(i in order[sel].orderAmountsMap){
-                    $('#tableSelect').append("<tbody> <tr> <td> <input id='item"+id+"' type='text' value='"+i+"'> </td> <td> <input id='quantity"+id+"' type='text' value='"+order[sel].orderAmountsMap[i]+"'> </td> <td> <td> <button id='delete"+id+"' type='button' class='btn btn-dark'>Delete</button> </td> <td> <button id='update"+id+"' type='button' class='btn btn-dark' onclick='OrdersControllerModule.updateOrder()'>Update</button> </td> </td> </tr> </tbody>");
+                    $('#tableSelect').append("<tbody> <tr> <td> <input id='item"+id+"' type='text' value='"+i+"'> </td> <td> <input id='quantity"+id+"' type='text' value='"+order[sel].orderAmountsMap[i]+"'> </td> <td> <td> <button id='delete"+id+"' type='button' class='btn btn-dark'>Delete</button> </td> <td> <button id='update"+id+"' type='button' class='btn btn-dark' >Update</button> </td> </td> </tr> </tbody>");
+                    document.getElementById('update'+id).setAttribute("onclick","OrdersControllerModule.updateOrder('"+$('#orders').val()+"',['"+$('#item'+id).val()+"','"+$('#quantity'+id).val()+"'])");
                     document.getElementById('delete'+id).setAttribute("onclick","OrdersControllerModule.deleteOrderItem('"+$('#item'+id).val()+"')");
                     id+=1;
                 }
