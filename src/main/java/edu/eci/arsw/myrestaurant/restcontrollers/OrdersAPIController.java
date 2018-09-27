@@ -76,8 +76,8 @@ public class OrdersAPIController {
     @RequestMapping(method = RequestMethod.POST)	
     public ResponseEntity<?> manejadorPostRecursoOrders(@RequestBody Order o){
         try {
-            //registrar dato
-            orders.addNewOrderToTable(o);
+            //registrar nueva orden
+            orders.updateOrder(o);
             return new ResponseEntity<>(HttpStatus.CREATED);           
 	} catch (OrderServicesException ex) {        
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,7 +107,7 @@ public class OrdersAPIController {
         }
     }
     
-    @RequestMapping(method = RequestMethod.DELETE, path = "{idmesa}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "{idmesa}")
     public ResponseEntity<?> manejadorDeleteOrders(@PathVariable int idmesa){
         try{
             orders.releaseTable(idmesa);
@@ -118,7 +118,7 @@ public class OrdersAPIController {
         }
     }
     
-    @RequestMapping(method = RequestMethod.DELETE, path = "{idmesa}/{itemName}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{idmesa}/{itemName}")
     public ResponseEntity<?> deleteItemOrder(@PathVariable String idmesa, @PathVariable String itemName){
         try{
             orders.releaseItem(Integer.parseInt(idmesa), itemName);

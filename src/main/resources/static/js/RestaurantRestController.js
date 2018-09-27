@@ -11,7 +11,7 @@ var RestControllerModule = (function () {
     };
 
     var updateOrder = function (order, callback) {
-        axios.post('/orders',order)
+        axios.post('/orders', order)
             .then(function(){
                 callback.onSuccess();
             })

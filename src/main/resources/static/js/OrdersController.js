@@ -58,9 +58,24 @@ var OrdersControllerModule = (function () {
         RestControllerModule.getOrders(callback);
     };
 
-    var updateOrder = function (orderId, item) {
-        alert("ENTRAAA "+orderId+" "+item);
-        addItemToOrder(orderId, item);
+    var updateOrder = function (orderId) {
+        
+        var len = Object.keys(selectedOrder[orderId].orderAmountsMap).length;
+        selectedOrder[orderId].orderAmountsMap = {};
+        
+        for (var i=1; i<len+1; i++ ){
+            selectedOrder[orderId].orderAmountsMap[$("#item"+i).val()] = parseInt($("#quantity"+i).val());
+        }
+        var callback = {
+            onSuccess: function (){
+                selectTable();
+            },
+            onFailed: function (exception){
+                console.log(exception);
+                alert("There is a problem with our servers. We apologize for the inconvince, please try again later");
+            }
+        };
+        RestControllerModule.updateOrder(selectedOrder[orderId], callback);
     };
 
     var deleteOrderItem = function (itemName) {
@@ -101,6 +116,7 @@ var OrdersControllerModule = (function () {
         var callback = {
             onSuccess: function(orders){
                 $('#orders').empty();
+                $('#orders').append("<option value='0'></option>");
                 for (i in orders){
                     $('#orders').append("<option value='"+i+"'>Table "+i+"</option>");
                 }
@@ -126,7 +142,7 @@ var OrdersControllerModule = (function () {
                 var id=1;
                 for(i in order[sel].orderAmountsMap){
                     $('#tableSelect').append("<tbody> <tr> <td> <input id='item"+id+"' type='text' value='"+i+"'> </td> <td> <input id='quantity"+id+"' type='text' value='"+order[sel].orderAmountsMap[i]+"'> </td> <td> <td> <button id='delete"+id+"' type='button' class='btn btn-dark'>Delete</button> </td> <td> <button id='update"+id+"' type='button' class='btn btn-dark' >Update</button> </td> </td> </tr> </tbody>");
-                    document.getElementById('update'+id).setAttribute("onclick","OrdersControllerModule.updateOrder('"+$('#orders').val()+"',['"+$('#item'+id).val()+"','"+$('#quantity'+id).val()+"'])");
+                    document.getElementById('update'+id).setAttribute("onclick","OrdersControllerModule.updateOrder('"+$('#orders').val()+"')");
                     document.getElementById('delete'+id).setAttribute("onclick","OrdersControllerModule.deleteOrderItem('"+$('#item'+id).val()+"')");
                     id+=1;
                 }
